@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Matrix Dice: 홀짝</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="rain"></canvas>
+  <div class="vignette"></div>
+
+  <!-- WIN/LOSE FX Overlay -->
+  <div id="fx" class="fx" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="title">MATRIX DICE </div>
+      </div>
+      <div class="top-actions">
+        <div class="pill" id="soundPill" role="button" tabindex="0" aria-label="사운드 토글">
+          <span class="dot" id="soundDot"></span>
+          <span>SOUND</span>
+          <span class="muted" id="soundText">ON</span>
+        </div>
+
+        <!-- 평소엔 숨김(게임오버 때만 JS가 .show 붙임) -->
+        <button class="btn danger" id="resetBtn" aria-label="초기화">RESET</button>
+      </div>
+    </div>
+
+    <!-- Main game -->
+    <section class="card pad arena" aria-label="게임 패널">
+      <div class="row">
+        <div class="pill" aria-label="잔액">
+          <span class="dot"></span>
+          <span>BAL</span>
+          <strong id="bal">1000</strong>
+          <span class="muted">PTS</span>
+        </div>
+
+        <div class="pill" aria-label="현재 스트릭">
+          <span class="dot"></span>
+          <span>STREAK</span>
+          <strong id="streak">0</strong>
+        </div>
+
+        <div class="pill" aria-label="승률">
+          <span class="dot"></span>
+          <span>WIN%</span>
+          <strong id="winrate">0</strong>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <div class="label">BET</div>
+          <div class="row">
+            <input id="bet" type="number" min="1" step="1" value="50" />
+            <input id="betSlider" type="range" min="1" max="300" value="50" />
+            <button class="btn" id="maxBtn" title="가능한 최대 베팅">MAX</button>
+          </div>
+          <div class="small">
+            팁: <span class="kbd">↑/↓</span> 베팅 조절 ·
+            <span class="kbd">O</span>=홀 <span class="kbd">E</span>=짝 ·
+            <span class="kbd">Space</span>=ROLL
+          </div>
+
+          <div class="hline"></div>
+          <div class="meter" aria-label="자신감 미터"><i id="meterFill"></i></div>
+        </div>
+
+        <div class="diceWrap" aria-label="주사위 영역">
+          <div class="dice" id="dice" aria-label="주사위">
+            <div class="face" id="face">?</div>
+          </div>
+
+          <div style="flex:1; min-width: 220px;">
+            <div class="label">CHOOSE</div>
+            <div class="choice">
+              <button class="btn primary" id="oddBtn">홀 (ODD)</button>
+              <button class="btn primary" id="evenBtn">짝 (EVEN)</button>
+              <button class="btn" id="rollBtn">ROLL</button>
+            </div>
+
+            <div class="hline"></div>
+
+            <div class="row">
+              <div class="small">선택: <strong id="pick">-</strong></div>
+              <div class="small">결과: <strong id="result">-</strong></div>
+              <div class="small">판정: <strong id="judge">-</strong></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Side panel -->
+    <aside class="card pad" aria-label="기록/설정 패널">
+      <div class="row">
+        <div>
+          <div class="label">STATS</div>
+        </div>
+        <button class="btn" id="seedBtn" title="새 세션(연출) 시작">NEW SESSION</button>
+      </div>
+
+      <div class="hline"></div>
+
+      <div class="grid">
+        <div>
+          <div class="label">TOTAL</div>
+          <div class="pill"><span class="dot"></span><span>ROUNDS</span><strong id="rounds">0</strong></div>
+        </div>
+        <div>
+          <div class="label">BEST</div>
+          <div class="pill"><span class="dot"></span><span>BEST STREAK</span><strong id="best">0</strong></div>
+        </div>
+      </div>
+
+      <div class="hline"></div>
+
+      <div class="row">
+        <div class="label" style="margin:0;">LOG</div>
+        <button class="btn" id="clearLog">CLEAR</button>
+      </div>
+      <div class="log" id="log" aria-label="게임 로그"></div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="dot"></span>
+    <span id="toastText">READY</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
